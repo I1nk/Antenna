@@ -18,9 +18,11 @@ while(start == 1)
     %Length of the antenna with gap
     ltot = l + gap; 
     lp = l * 0.5;
+    beta = 2 * pi;
 
     %Demensions of the antenna
     radius = a;
+    radius_sq = radius * radius;
 
     %How to split up the antenna
     %Base the number of elements in the entrie antenna from the number of 
@@ -67,32 +69,5 @@ start = 1;
     
 end
 
-%Default builder to put together the antenna 
-function [out, indexo] = build(ele, index, gapsize, l, radius, offset)
 
-    indexo = index;
-    out = ele;
-    
-    %Work on the bottom plate
-    for for_index = 1:gapsize
 
-       %Find the Y value
-       tempy = 2 * for_index;
-       tempy = tempy - 1;
-       tempy = tempy * l;
-       tempy = tempy * 0.5;
-       tempy = tempy / gapsize;
-       tempy = tempy + offset;
-
-       %Find the x value
-       tempx = radius;
-
-       %Store it into the struct array
-       out(indexo).x = tempx;
-       out(indexo).y = tempy;
-       out(indexo).z = 0;
-       indexo = indexo + 1;
-
-    end
-    
-end
