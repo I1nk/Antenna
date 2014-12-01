@@ -69,5 +69,33 @@ start = 1;
     
 end
 
+%Default builder to put together the antenna 
+function [out, indexo] = build(ele, index, gapsize, l, radius, offset)
 
+    indexo = index;
+    out = ele;
+    
+    %Work on the bottom plate
+    for for_index = 1:gapsize
+
+       %Find the Y value
+       tempy = 2 * for_index;
+       tempy = tempy - 1;
+       tempy = tempy * l;
+       tempy = tempy * 0.5;
+       tempy = tempy / gapsize;
+       tempy = tempy + offset;
+
+       %Find the x value
+       tempx = radius;
+
+       %Store it into the struct array
+       out(indexo).x = tempx;
+       out(indexo).y = tempy;
+       out(indexo).z = 0;
+       indexo = indexo + 1;
+
+    end
+    
+end
 
