@@ -1,20 +1,20 @@
 clear
 clc
-close all
 
+vs = 100;
 gap = 1e-3;
 lamda = 0.5;
 lens = 0.85;
 l = lamda*lens;
-N = (l/gap) + (mod((l/gap),2) == 0); % number of sections
-E = zeros(1,N); % magnetic frill generator
-%E(ceil(N/2)) = 100/2;
-a = 0.0001;
+N = (l/gap) + (mod((l/gap),2) == 0);
+zvalue = zeros(1,N);
+E = zeros(1,N);
+%E(ceil(N/2)) = vs/gap;
+a = .0001;
 b = 2.3*a;
-vs = 100;
 offset = l * -0.5;
 delz = l / N;
-zvalue = zeros(1,N);
+
 
 for k = 1:N
     
@@ -54,7 +54,4 @@ end
 
 figure;
 plot(zvalue,I)
-grid on
-figure;
-plot(zvalue,E)
 grid on
