@@ -9,6 +9,7 @@ l = lamda*lens;
 N = ceil(l/gap) + (mod(ceil(l/gap),2) == 0);
 zvalue = zeros(1,N);
 E = zeros(1,N);
+imp = zeros(1,N);
 a = .0001;
 b = 2.3*a;
 offset = l * -0.5;
@@ -56,10 +57,31 @@ Ia = abs(I);
 %Set up the impedance 
 z = z * lamda;
 
+%Find the impedance of the antenna
+for k = 1:N
+   if(I(k) == 0)
+      imp(k) = 0;
+   else
+      imp(k) = E(k) * zvalue(k);
+      imp(k) = imp(k) / I(k);
+   end
+end
+
+%for matlab only
+%imp = E .* z;
+%imp = imp ./ I;
+
 %%
 %plot the information
+
 figure;
-plot(zvalue,Ia)
+plot(z,Ia)
+xlim([-l/2 l/2])
 grid on
 
+
+figure;
+plot(z,abs(imp))
+xlim([-l/2 l/2])
+grid on
 
