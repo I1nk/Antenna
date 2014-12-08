@@ -12,3 +12,5 @@ git push -u origin master
 
 git remote add origin https://github.com/I1nk/Antenna.git
 git push -u origin master
+git clone https://github.com/I1nk/Antenna.git
+
