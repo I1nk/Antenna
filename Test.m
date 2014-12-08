@@ -6,7 +6,7 @@ gap = 1e-3;
 lamda = 0.5;
 lens = 0.85;
 l = lamda*lens;
-N = (l/gap) + (mod((l/gap),2) == 0);
+N = ceil(l/gap) + (mod(ceil(l/gap),2) == 0);
 zvalue = zeros(1,N);
 E = zeros(1,N);
 a = .0001;
@@ -61,3 +61,5 @@ z = z * lamda;
 figure;
 plot(zvalue,Ia)
 grid on
+
+
