@@ -4,7 +4,7 @@ clc
 vs = 100;
 gap = 1e-3;
 lamda = 0.5;
-lens = 0.85;
+lens = .85;
 l = lamda*lens;
 N = ceil(l/gap) + (mod(ceil(l/gap),2) == 0);
 zvalue = zeros(1,N);
@@ -41,7 +41,7 @@ for k = 1:N
     %      i
     %Find E
     %      k
-    E(k) = 2 * log(b/a);
+    E(k) = 2 * log(2.3); %b/a = 2.3
     E(k) = vs / E(k);
     E(k) = -E(k) * ( (exp(-1j*2*pi*r1/lamda) / r1) ...
         - (exp(-1j*2*pi*r2/lamda) / r2) );
@@ -50,7 +50,7 @@ end
 
 %%
 % get current distribution (normal conditions)
-[I,z,cnd] = pfield(l/lamda,.0001/lamda,E,'e','d');
+[I,z,cnd] = pfield(lens,a/lamda,E,'e','d');
 
 %Find the magnitude of the current
 Ia = abs(I);
@@ -76,6 +76,64 @@ end
 imp_sum = sum(imp);
 
 fprintf('Z = %f %fi ohms\n',real(imp_sum),imag(imp_sum));
+
+%******************************************************
+%     COMPUTATION OF THE INPUT IMPEDANCE
+%******************************************************
+zin=100/I(ceil(N/2))
+
+beta = 2 * pi / lamda;
+eta = 377;
+etm=zeros(361);
+etmm=etm(1,1:361);
+hl = l/2;
+dz = delz;
+nm = N;
+%******************************************************************
+%     COMPUTATION OF AMPLITUDE RADIATION PATTERN OF THE ANTENNA
+%******************************************************************
+for i=1:181
+    theta=(i-1.0)*pi/180;
+    cth=cos(theta);
+    sth=sin(theta);
+      if abs(cth)<0.001
+         ft=1;
+      else
+         ft=sin(beta*dz*cth*0.5)/(beta*dz*cth*0.5);
+      end
+    crt=0;
+         for m=1:nm
+             zm=hl-(m-0.5)*dz;
+             crt=crt+exp(j*beta*zm*cth)*ft*I(m)*dz;
+         end
+    ptt=abs(crt)*sth*sth*eta*0.5;
+    etmm(i)=ptt;
+ end
+amax=etmm(1);
+for i=2:181
+    if etmm(i)>=amax
+       amax=etmm(i);
+    end
+end
+for i=1:181
+    ptt=etmm(i)/amax;
+      if ptt<=0.00001
+         ptt=0.00001;
+         etmm(i)=20*log10(ptt);
+      end
+      etmm(i)=20*log10(ptt);
+end
+
+
+figure;
+i=[1:181];
+xi=i-1;
+% Polar Plot
+etmm1=[etmm(1:181),fliplr(etmm(1:180))];
+q=polar_dB([0:360],etmm1,-40,0,4,'-');
+set(q,'linewidth',1.5);
+title('RADIATION PATTERN   vs   OBSERVATION ANGLE')
+
 
 %%
 %plot the information
