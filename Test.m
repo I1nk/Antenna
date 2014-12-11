@@ -80,7 +80,7 @@ fprintf('Z = %f %fi ohms\n',real(imp_sum),imag(imp_sum));
 %******************************************************
 %     COMPUTATION OF THE INPUT IMPEDANCE
 %******************************************************
-zin=100/I(ceil(N/2))
+zin=1/I(ceil(N/2))
 
 beta = 2 * pi / lamda;
 eta = 377;
@@ -137,17 +137,16 @@ title('RADIATION PATTERN   vs   OBSERVATION ANGLE')
 
 %%
 %plot the information
-
 figure;
 plot(z,Ia)
 xlim([-l/2 l/2])
 grid on
 
 %For testing only and not going to use this plot to turn in with the report.
-figure;
-plot(z,abs(imp))
-xlim([-l/2 l/2])
-grid on
+% figure;
+% plot(z,abs(imp))
+% xlim([-l/2 l/2])
+% grid on
 
 
 
