@@ -1,6 +1,8 @@
 clear
 clc
 
+for cons = 0:1
+
 vs = 100;
 gap = 1e-3;
 lamda = 0.5;
@@ -10,7 +12,7 @@ N = ceil(l/gap) + (mod(ceil(l/gap),2) == 0);
 zvalue = zeros(1,N);
 E = zeros(1,N);
 imp = zeros(1,N);
-a = .0001;
+a = 1e-4 + (1e-4) * cons;
 b = 2.3*a;
 offset = l * -0.5;
 delz = l / N;
@@ -138,9 +140,11 @@ title('RADIATION PATTERN   vs   OBSERVATION ANGLE')
 %%
 %plot the information
 figure;
+words = sprintf('a = %f',a);
 plot(z,Ia)
 xlim([-l/2 l/2])
 grid on
+title(words);
 
 %For testing only and not going to use this plot to turn in with the report.
 % figure;
@@ -150,4 +154,4 @@ grid on
 
 
 
-
+end
